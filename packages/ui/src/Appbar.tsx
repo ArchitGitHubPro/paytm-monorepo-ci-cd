@@ -1,5 +1,6 @@
 import { Button } from "./button"
 
+
     
 interface AppbarProps {
     user?:{
@@ -19,7 +20,7 @@ export const Appbar = ({
         <div className="text-lg flex flex-col justify-center">
             Paytm
         </div>
-        <div className="flex flex-col justify-center pt-2">
+        <div className="flex flex-col justify-center pt-2 ">
             <Button onClick = { user ? onSignOut: onSignIn}> {user ? 'Logout': 'Login'} </Button>
         </div>
     </div>

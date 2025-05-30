@@ -13,7 +13,7 @@ export default function Home() {
   const session = useSession();
 
   return (
-    <div className="bg-red-200">
+    <div >
       <Appbar  onSignIn={signIn} onSignOut={signOut} user={session.data?.user}/>
       Hi there {balance}
     </div>
