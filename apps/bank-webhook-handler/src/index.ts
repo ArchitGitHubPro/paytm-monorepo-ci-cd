@@ -1,16 +1,18 @@
 import express from "express";
 import z from "zod";
+import { PrismaClient } from "@repo/db/client";
 
 const app = express();
 app.use(express.json());
 const PORT = 3000;
 
-app.post('/hdfcwebhook', async (req, res) => {
 
+app.post('/hdfcwebhook', async (req, res) => {
+    const prisma = new PrismaClient();
     const body = req.body;
     const paymentSchema = z.object({
         token: z.string(),
-        userId: z.string(),
+        userId: z.number(),
         amount: z.number()
     })
 
@@ -32,7 +34,29 @@ app.post('/hdfcwebhook', async (req, res) => {
         amount: amount
     }
 
-    res.json(validpaymentInfo);
+    await prisma.balance.update({
+        where: {
+            userId: (validpaymentInfo.userId),
+        },
+        data: {
+            amount: {
+                increment: validpaymentInfo.amount
+            }
+        }
+    })
+
+    await prisma.onRampTransaction.update({
+        where: {
+            token : validpaymentInfo.token,
+        },
+        data: {
+            status: "Success"
+        }
+    })
+
+    res.status(200).json({
+        message: "captured"
+    })
 
     } catch (e) {
         res.status(500).json({

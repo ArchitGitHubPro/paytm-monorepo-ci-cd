@@ -11,6 +11,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@repo/db": "*",
     "esbuild": "^0.25.5",
     "express": "^5.1.0",
     "zod": "^3.25.42"
