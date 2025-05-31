@@ -18,7 +18,7 @@ app.post('/hdfcwebhook', async (req, res) => {
 
     const paymentInformation = paymentSchema.safeParse(body);
 
-    try {    
+        
         if (!paymentInformation.success) {
             res.status(401).json({
             message: "Enter Valid Details"
@@ -33,47 +33,40 @@ app.post('/hdfcwebhook', async (req, res) => {
         userId: userId,
         amount: amount
     }
+    try {
+        await prisma.$transaction([
+            prisma.balance.update({
+               where: {
+                   userId: (validpaymentInfo.userId),
+               },
+               data: {
+                   amount: {
+                       increment: validpaymentInfo.amount
+                   }
+               }
+           })
+        ])
 
-    await prisma.balance.update({
-        where: {
-            userId: (validpaymentInfo.userId),
-        },
-        data: {
-            amount: {
-                increment: validpaymentInfo.amount
-            }
-        }
-    })
-
-    await prisma.onRampTransaction.update({
-        where: {
-            token : validpaymentInfo.token,
-        },
-        data: {
-            status: "Success"
-        }
-    })
-
-    res.status(200).json({
-        message: "captured"
-    })
+        await prisma.$transaction([
+            prisma.onRampTransaction.update({
+                where: {
+                    token : validpaymentInfo.token,
+                },
+                data: {
+                    status: "Success"
+                }
+            })
+        ])
+        res.status(200).json({
+            message: "captured"
+        })
 
     } catch (e) {
         res.status(500).json({
             message: "Internal Server Error"
         })    
     }
-
-
-
-
-    
-
 })
-
-
-
-
 
 
 app.listen(PORT, () => {
