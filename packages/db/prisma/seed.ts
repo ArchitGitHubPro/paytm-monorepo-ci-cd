@@ -3,13 +3,13 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
-    const alice = await prisma.user.upsert({
-        where: { number: '1111111111' },
+    const william = await prisma.user.upsert({
+        where: { number: '9595959595' },
         update: {},
         create: {
-            number: '1111111111',
-            password: await bcrypt.hash('alice', 10),
-            name: 'alice',
+            number: '9595959595',
+            password: await bcrypt.hash('will123', 10),
+            name: 'william',
             Balance: {
                 create: {
                     amount:2000,
@@ -21,19 +21,19 @@ async function main() {
                     startTime: new Date(),
                     status: "Success",
                     amount: 2000,
-                    token: "token_1",
+                    token: "token_3",
                     provider: "HDFC Bank"
                 },
             },
         },
     })
-    const bob = await prisma.user.upsert({
-        where: { number: '2222222222'},
+    const chris = await prisma.user.upsert({
+        where: { number: '9898989898'},
         update: {},
         create: {
-            number: '2222222222',
-            password: await bcrypt.hash('bob', 10),
-            name: 'bob',
+            number: '9898989898',
+            password: await bcrypt.hash('chris123', 10),
+            name: 'chris',
             Balance: {
                 create: {
                     amount: 2000,
@@ -45,13 +45,13 @@ async function main() {
                     startTime: new Date(),
                     status: "Failure",
                     amount: 2000,
-                    token: "token_2",
+                    token: "token_4",
                     provider: "HDFC Bank",
                 },
             },        
         },
     })
-    console.log({ alice, bob })
+    console.log({ william, chris  })
 }
 main()
     .then(async () => {

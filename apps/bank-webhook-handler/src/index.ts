@@ -4,7 +4,7 @@ import { PrismaClient } from "@repo/db/client";
 
 const app = express();
 app.use(express.json());
-const PORT = 3000;
+const PORT = 3003;
 
 
 app.post('/hdfcwebhook', async (req, res) => {
@@ -67,7 +67,6 @@ app.post('/hdfcwebhook', async (req, res) => {
         })    
     }
 })
-
 
 app.listen(PORT, () => {
     console.log(`App listening on PORT: ${PORT}`);

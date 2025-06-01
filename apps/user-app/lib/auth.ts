@@ -24,7 +24,7 @@ export const authOptions = {
                             .min(10, 'Phone Number must be at least 10 digits')
                             .max(15, 'Phone Number must be at most 15 digts'),
                     password: z.string()
-                            .min(6, 'Password is required')        
+                            .min(4, 'Password is required')        
                 });
 
                 const validatedCredentials = credentialSchema.safeParse(credentials);
