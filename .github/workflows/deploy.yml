@@ -32,11 +32,11 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USERNAME }}
         key: ${{ secrets.SSH_KEY }} 
-      run: |
-        sudo docker pull archit99/paytm-userapp:latest
-        sudo docker stop paytm-userapp || true
-        sudo docker rm paytm-userapp || true
-        sudo docker run -d --name paytm-userapp -p 3005:3000 archit99/paytm-userapp:latest     
+        script: |
+          sudo docker pull archit99/paytm-userapp:latest
+          sudo docker stop paytm-userapp || true
+          sudo docker rm paytm-userapp || true
+          sudo docker run -d --name paytm-userapp -p 3005:3000 archit99/paytm-userapp:latest     
 
     - name: Verify Pushed Image
       run: docker pull archit99/paytm-userapp:latest      
